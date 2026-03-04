@@ -1,0 +1,73 @@
+package middleware
+
+import (
+	"context"
+
+	"github.com/Wei-Shaw/sub2api/internal/pkg/ctxkey"
+	"github.com/gin-gonic/gin"
+)
+
+// ContextKey 定义上下文键类型
+type ContextKey string
+
+const (
+	// ContextKeyUser 用户上下文键
+	ContextKeyUser ContextKey = "user"
+	// ContextKeyUserRole 当前用户角色（string）
+	ContextKeyUserRole ContextKey = "user_role"
+	// ContextKeyAPIKey API密钥上下文键
+	ContextKeyAPIKey ContextKey = "api_key"
+	// ContextKeySubscription 订阅上下文键
+	ContextKeySubscription ContextKey = "subscription"
+	// ContextKeyForcePlatform 强制平台（用于 /antigravity 路由）
+	ContextKeyForcePlatform ContextKey = "force_platform"
+)
+
+// ForcePlatform 返回设置强制平台的中间件
+// 同时设置 request.Context（供 Service 使用）和 gin.Context（供 Handler 快速检查）
+func ForcePlatform(platform string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// 设置到 request.Context，使用 ctxkey.ForcePlatform 供 Service 层读取
+		ctx := context.WithValue(c.Request.Context(), ctxkey.ForcePlatform, platform)
+		c.Request = c.Request.WithContext(ctx)
+		// 同时设置到 gin.Context，供 Handler 快速检查
+		c.Set(string(ContextKeyForcePlatform), platform)
+		c.Next()
+	}
+}
+
+// HasForcePlatform 检查是否有强制平台（用于 Handler 跳过分组检查）
+func HasForcePlatform(c *gin.Context) bool {
+	_, exists := c.Get(string(ContextKeyForcePlatform))
+	return exists
+}
+
+// GetForcePlatformFromContext 从 gin.Context 获取强制平台
+func GetForcePlatformFromContext(c *gin.Context) (string, bool) {
+	value, exists := c.Get(string(ContextKeyForcePlatform))
+	if !exists {
+		return "", false
+	}
+	platform, ok := value.(string)
+	return platform, ok
+}
+
+// ErrorResponse 标准错误响应结构
+type ErrorResponse struct {
+	Code    string `json:"code"`
+	Message string `json:"message"`
+}
+
+// NewErrorResponse 创建错误响应
+func NewErrorResponse(code, message string) ErrorResponse {
+	return ErrorResponse{
+		Code:    code,
+		Message: message,
+	}
+}
+
+// AbortWithError 中断请求并返回JSON错误
+func AbortWithError(c *gin.Context, statusCode int, code, message string) {
+	c.JSON(statusCode, NewErrorResponse(code, message))
+	c.Abort()
+}

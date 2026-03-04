@@ -1,0 +1,158 @@
+package dto
+
+// SystemSettings represents the admin settings API response payload.
+type SystemSettings struct {
+	RegistrationEnabled         bool `json:"registration_enabled"`
+	EmailVerifyEnabled          bool `json:"email_verify_enabled"`
+	PromoCodeEnabled            bool `json:"promo_code_enabled"`
+	PasswordResetEnabled        bool `json:"password_reset_enabled"`
+	InvitationCodeEnabled       bool `json:"invitation_code_enabled"`
+	TotpEnabled                 bool `json:"totp_enabled"`                   // TOTP 双因素认证
+	TotpEncryptionKeyConfigured bool `json:"totp_encryption_key_configured"` // TOTP 加密密钥是否已配置
+
+	SMTPHost               string `json:"smtp_host"`
+	SMTPPort               int    `json:"smtp_port"`
+	SMTPUsername           string `json:"smtp_username"`
+	SMTPPasswordConfigured bool   `json:"smtp_password_configured"`
+	SMTPFrom               string `json:"smtp_from_email"`
+	SMTPFromName           string `json:"smtp_from_name"`
+	SMTPUseTLS             bool   `json:"smtp_use_tls"`
+
+	TurnstileEnabled             bool   `json:"turnstile_enabled"`
+	TurnstileSiteKey             string `json:"turnstile_site_key"`
+	TurnstileSecretKeyConfigured bool   `json:"turnstile_secret_key_configured"`
+
+	LinuxDoConnectEnabled                bool   `json:"linuxdo_connect_enabled"`
+	LinuxDoConnectClientID               string `json:"linuxdo_connect_client_id"`
+	LinuxDoConnectClientSecretConfigured bool   `json:"linuxdo_connect_client_secret_configured"`
+	LinuxDoConnectRedirectURL            string `json:"linuxdo_connect_redirect_url"`
+
+	SiteName                    string `json:"site_name"`
+	SiteLogo                    string `json:"site_logo"`
+	SiteSubtitle                string `json:"site_subtitle"`
+	APIBaseURL                  string `json:"api_base_url"`
+	ContactInfo                 string `json:"contact_info"`
+	DocURL                      string `json:"doc_url"`
+	HomeContent                 string `json:"home_content"`
+	HideCcsImportButton         bool   `json:"hide_ccs_import_button"`
+	PurchaseSubscriptionEnabled bool   `json:"purchase_subscription_enabled"`
+	PurchaseSubscriptionURL     string `json:"purchase_subscription_url"`
+	SoraClientEnabled           bool   `json:"sora_client_enabled"`
+
+	DefaultConcurrency int     `json:"default_concurrency"`
+	DefaultBalance     float64 `json:"default_balance"`
+
+	// Model fallback configuration
+	EnableModelFallback      bool   `json:"enable_model_fallback"`
+	FallbackModelAnthropic   string `json:"fallback_model_anthropic"`
+	FallbackModelOpenAI      string `json:"fallback_model_openai"`
+	FallbackModelGemini      string `json:"fallback_model_gemini"`
+	FallbackModelAntigravity string `json:"fallback_model_antigravity"`
+
+	// Identity patch configuration (Claude -> Gemini)
+	EnableIdentityPatch bool   `json:"enable_identity_patch"`
+	IdentityPatchPrompt string `json:"identity_patch_prompt"`
+
+	// Ops monitoring (vNext)
+	OpsMonitoringEnabled         bool   `json:"ops_monitoring_enabled"`
+	OpsRealtimeMonitoringEnabled bool   `json:"ops_realtime_monitoring_enabled"`
+	OpsQueryModeDefault          string `json:"ops_query_mode_default"`
+	OpsMetricsIntervalSeconds    int    `json:"ops_metrics_interval_seconds"`
+
+	// Payment settings
+	PaymentEnabled              bool    `json:"payment_enabled"`
+	PaymentCurrency             string  `json:"payment_currency"`
+	PaymentExchangeRate         float64 `json:"payment_exchange_rate"`
+	PaymentPresetAmounts        string  `json:"payment_preset_amounts"`
+	PaymentMinAmount            float64 `json:"payment_min_amount"`
+	PaymentMaxAmount            float64 `json:"payment_max_amount"`
+	AlipayEnabled               bool    `json:"payment_alipay_enabled"`
+	AlipayAppID                 string  `json:"payment_alipay_app_id"`
+	AlipayPrivateKeyConfigured  bool    `json:"payment_alipay_private_key_configured"`
+	AlipayPublicKeyConfigured   bool    `json:"payment_alipay_public_key_configured"`
+	AlipayF2FEnabled            bool    `json:"payment_alipay_f2f_enabled"`
+	WechatEnabled               bool    `json:"payment_wechat_enabled"`
+	WechatAppID                 string  `json:"payment_wechat_app_id"`
+	WechatMchID                 string  `json:"payment_wechat_mch_id"`
+	WechatAPIKeyConfigured      bool    `json:"payment_wechat_api_key_configured"`
+	EpayEnabled                 bool    `json:"payment_epay_enabled"`
+	EpayAPIURL                  string  `json:"payment_epay_api_url"`
+	EpayPID                     string  `json:"payment_epay_pid"`
+	EpayKeyConfigured           bool    `json:"payment_epay_key_configured"`
+	EpayType                    string  `json:"payment_epay_type"`
+	ReferralEnabled             bool    `json:"referral_enabled"`
+	ReferralCommissionRate      float64 `json:"referral_commission_rate"`
+}
+
+type PublicSettings struct {
+	RegistrationEnabled         bool   `json:"registration_enabled"`
+	EmailVerifyEnabled          bool   `json:"email_verify_enabled"`
+	PromoCodeEnabled            bool   `json:"promo_code_enabled"`
+	PasswordResetEnabled        bool   `json:"password_reset_enabled"`
+	InvitationCodeEnabled       bool   `json:"invitation_code_enabled"`
+	TotpEnabled                 bool   `json:"totp_enabled"` // TOTP 双因素认证
+	TurnstileEnabled            bool   `json:"turnstile_enabled"`
+	TurnstileSiteKey            string `json:"turnstile_site_key"`
+	SiteName                    string `json:"site_name"`
+	SiteLogo                    string `json:"site_logo"`
+	SiteSubtitle                string `json:"site_subtitle"`
+	APIBaseURL                  string `json:"api_base_url"`
+	ContactInfo                 string `json:"contact_info"`
+	DocURL                      string `json:"doc_url"`
+	HomeContent                 string `json:"home_content"`
+	HideCcsImportButton         bool   `json:"hide_ccs_import_button"`
+	PurchaseSubscriptionEnabled bool   `json:"purchase_subscription_enabled"`
+	PurchaseSubscriptionURL     string `json:"purchase_subscription_url"`
+	LinuxDoOAuthEnabled         bool   `json:"linuxdo_oauth_enabled"`
+	SoraClientEnabled           bool   `json:"sora_client_enabled"`
+	PaymentEnabled              bool   `json:"payment_enabled"`
+	ReferralEnabled             bool   `json:"referral_enabled"`
+	Version                     string `json:"version"`
+}
+
+// SoraS3Settings Sora S3 存储配置 DTO（响应用，不含敏感字段）
+type SoraS3Settings struct {
+	Enabled                   bool   `json:"enabled"`
+	Endpoint                  string `json:"endpoint"`
+	Region                    string `json:"region"`
+	Bucket                    string `json:"bucket"`
+	AccessKeyID               string `json:"access_key_id"`
+	SecretAccessKeyConfigured bool   `json:"secret_access_key_configured"`
+	Prefix                    string `json:"prefix"`
+	ForcePathStyle            bool   `json:"force_path_style"`
+	CDNURL                    string `json:"cdn_url"`
+	DefaultStorageQuotaBytes  int64  `json:"default_storage_quota_bytes"`
+}
+
+// SoraS3Profile Sora S3 存储配置项 DTO（响应用，不含敏感字段）
+type SoraS3Profile struct {
+	ProfileID                 string `json:"profile_id"`
+	Name                      string `json:"name"`
+	IsActive                  bool   `json:"is_active"`
+	Enabled                   bool   `json:"enabled"`
+	Endpoint                  string `json:"endpoint"`
+	Region                    string `json:"region"`
+	Bucket                    string `json:"bucket"`
+	AccessKeyID               string `json:"access_key_id"`
+	SecretAccessKeyConfigured bool   `json:"secret_access_key_configured"`
+	Prefix                    string `json:"prefix"`
+	ForcePathStyle            bool   `json:"force_path_style"`
+	CDNURL                    string `json:"cdn_url"`
+	DefaultStorageQuotaBytes  int64  `json:"default_storage_quota_bytes"`
+	UpdatedAt                 string `json:"updated_at"`
+}
+
+// ListSoraS3ProfilesResponse Sora S3 配置列表响应
+type ListSoraS3ProfilesResponse struct {
+	ActiveProfileID string          `json:"active_profile_id"`
+	Items           []SoraS3Profile `json:"items"`
+}
+
+// StreamTimeoutSettings 流超时处理配置 DTO
+type StreamTimeoutSettings struct {
+	Enabled                bool   `json:"enabled"`
+	Action                 string `json:"action"`
+	TempUnschedMinutes     int    `json:"temp_unsched_minutes"`
+	ThresholdCount         int    `json:"threshold_count"`
+	ThresholdWindowMinutes int    `json:"threshold_window_minutes"`
+}
