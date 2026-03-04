@@ -18,7 +18,7 @@ English | [中文](README_CN.md)
 
 ## Demo
 
-Try Sub2API online: **https://demo.sub2api.org/**
+Try Sub2API online: **https://www.findcg.com/**
 
 Demo credentials (shared demo environment; **not** created automatically for self-hosted installs):
 
